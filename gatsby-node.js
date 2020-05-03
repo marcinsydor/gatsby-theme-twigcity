@@ -151,7 +151,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   result.data.pages.edges.forEach(({ node }) => {
     createPage({
       path: node.path,
-      component: path.resolve(`src/templates/page.js`),
+      component: require.resolve(`./src/templates/page.js`),
       context: {},
     })
   })
@@ -161,13 +161,13 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
     createPage({
       path: node.frontmatter.path,
-      component: path.resolve(`src/templates/post.js`),
+      component: require.resolve(`./src/templates/post.js`),
       context: {},
     })
   })
 
   result.data.lists.edges.forEach(({ node }) => {
-    const listPageTemplate = path.resolve(`src/templates/list.js`)
+    const listPageTemplate = require.resolve(`./src/templates/list.js`)
     const listType = node.listType
     const allPosts = result.data.posts.edges
     const posts = allPosts.filter(post => post.type === listType)

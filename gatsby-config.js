@@ -1,114 +1,125 @@
-const theme = require("./content/settings/theme.json")
-const site = require("./content/settings/site.json")
+module.exports = (themeOptions) => {
+  const path = themeOptions.path || ""
+  // siteMetadata.title = siteMetadata.title || `Website Title`;
+  // siteMetadata.description = siteMetadata.description || `Website Description`;
+  // siteMetadata.siteUrl = siteMetadata.siteUrl || "https://twigcity.com";
 
-module.exports = {
-  plugins: [
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
-    `gatsby-tinacms-json`,
-    `gatsby-transformer-json`,
-    {
-      resolve: "gatsby-plugin-tinacms",
-      options: {
-        sidebar: {
-          hidden: process.env.NODE_ENV === "production",
-          position: "displace",
-          theme: {
-            color: {
-              primary: {
-                light: theme.color.primary,
-                medium: theme.color.primary,
-                dark: theme.color.primary,
+  // const datacms = themeOptions.datocms || {};
+  // datacms.apiToken = themeOptions.datacms.apiToken || "";
+  // datacms.previewMode = themeOptions.datacms.previewMode || false;
+
+  const theme = require(`${path}/content/settings/theme.json`)
+  const site = require(`${path}/content/settings/site.json`)
+
+  return {
+    plugins: [
+      `gatsby-transformer-sharp`,
+      `gatsby-plugin-sharp`,
+      `gatsby-tinacms-json`,
+      `gatsby-transformer-json`,
+      {
+        resolve: "gatsby-plugin-tinacms",
+        options: {
+          sidebar: {
+            hidden: process.env.NODE_ENV === "production",
+            position: "displace",
+            theme: {
+              color: {
+                primary: {
+                  light: theme.color.primary,
+                  medium: theme.color.primary,
+                  dark: theme.color.primary,
+                },
               },
             },
           },
+          plugins: ["gatsby-tinacms-git", "gatsby-tinacms-remark"],
         },
-        plugins: ["gatsby-tinacms-git", "gatsby-tinacms-remark"],
       },
-    },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        path: `${__dirname}/static/images`,
-        name: `uploads`,
+      {
+        resolve: "gatsby-source-filesystem",
+        options: {
+          path: `${__dirname}/static/images`,
+          name: `uploads`,
+        },
       },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `content`,
-        path: `${__dirname}/content`,
+      {
+        resolve: `gatsby-source-filesystem`,
+        options: {
+          name: `content`,
+          path: `${path}/content`,
+        },
       },
-    },
-    {
-      resolve: `gatsby-plugin-layout`,
-      options: {
-        component: require.resolve(`./src/components/siteLayout.js`),
+      {
+        resolve: `gatsby-plugin-layout`,
+        options: {
+          component: require.resolve(`./src/components/siteLayout.js`),
+        },
       },
-    },
-    `gatsby-plugin-styled-components`,
-    `gatsby-plugin-react-helmet`,
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: site.title,
-        short_name: site.title,
-        start_url: `/`,
-        background_color: theme.color.primary,
-        theme_color: theme.color.primary,
-        display: `minimal-ui`,
-        icon: `content/images/icon.png`,
+      `gatsby-plugin-styled-components`,
+      `gatsby-plugin-react-helmet`,
+      {
+        resolve: `gatsby-plugin-manifest`,
+        options: {
+          name: site.title,
+          short_name: site.title,
+          start_url: `/`,
+          background_color: theme.color.primary,
+          theme_color: theme.color.primary,
+          display: `minimal-ui`,
+          icon: `content/images/icon.png`,
+        },
       },
-    },
-    `gatsby-plugin-offline`,
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          {
-            resolve: "gatsby-remark-relative-images",
-            options: {
-              name: "uploads",
-            },
-          },
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 880,
-              withWebp: true,
-            },
-          },
-          {
-            resolve: "gatsby-remark-copy-linked-files",
-            options: {
-              destinationDir: "static",
-            },
-          },
-          {
-            resolve: `gatsby-remark-prismjs`,
-            options: {
-              classPrefix: "language-",
-              inlineCodeMarker: null,
-              aliases: {},
-              showLineNumbers: true,
-              noInlineHighlight: false,
-              prompt: {
-                user: "root",
-                host: "localhost",
-                global: false,
+      `gatsby-plugin-offline`,
+      {
+        resolve: `gatsby-transformer-remark`,
+        options: {
+          plugins: [
+            {
+              resolve: "gatsby-remark-relative-images",
+              options: {
+                name: "uploads",
               },
             },
-          },
-        ],
-      },
-    },
-    {
-      resolve: "gatsby-plugin-web-font-loader",
-      options: {
-        google: {
-          families: ["Lato:400,700"],
+            {
+              resolve: `gatsby-remark-images`,
+              options: {
+                maxWidth: 880,
+                withWebp: true,
+              },
+            },
+            {
+              resolve: "gatsby-remark-copy-linked-files",
+              options: {
+                destinationDir: "static",
+              },
+            },
+            {
+              resolve: `gatsby-remark-prismjs`,
+              options: {
+                classPrefix: "language-",
+                inlineCodeMarker: null,
+                aliases: {},
+                showLineNumbers: true,
+                noInlineHighlight: false,
+                prompt: {
+                  user: "root",
+                  host: "localhost",
+                  global: false,
+                },
+              },
+            },
+          ],
         },
       },
-    },
-  ],
+      {
+        resolve: "gatsby-plugin-web-font-loader",
+        options: {
+          google: {
+            families: ["Lato:400,700"],
+          },
+        },
+      },
+    ],
+  }
 }
