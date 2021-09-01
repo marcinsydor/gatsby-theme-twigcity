@@ -24,17 +24,18 @@ export const Nav = ({ toggleDarkMode, isDarkMode }) => {
   return (
     <>
       <StyledNavbar navOpen={navOpen} isDarkMode={isDarkMode}>
-        {menu.menuItems.map(item => (
-          <NavItem key={item.label}>
-            <NavLink
-              onClick={toggleNavOpen}
-              partiallyActive={item.link === "/" ? false : true}
-              to={item.link}
-            >
-              {item.label}
-            </NavLink>
-          </NavItem>
-        ))}
+        {menu.menuItems.lenght > 1 &&
+          menu.menuItems.map((item) => (
+            <NavItem key={item.label}>
+              <NavLink
+                onClick={toggleNavOpen}
+                partiallyActive={item.link === "/" ? false : true}
+                to={item.link}
+              >
+                {item.label}
+              </NavLink>
+            </NavItem>
+          ))}
         <NavItem>
           <DarkModeToggle
             aria-label="Toggle Dark Theme"
@@ -54,7 +55,7 @@ export const Nav = ({ toggleDarkMode, isDarkMode }) => {
 
 export const StyledNavbar = styled.ul`
   color: inherit;
-  @media (max-width: ${props => props.theme.breakpoints.small}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.small}) {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -65,14 +66,14 @@ export const StyledNavbar = styled.ul`
     align-items: stretch;
     opacity: 0;
     z-index: 1000;
-    background-color: ${props => 
+    background-color: ${(props) =>
       props.isDarkMode || props.theme.header.transparent
         ? mix(0.95, props.theme.color.black, props.theme.color.white)
         : mix(0.95, props.theme.color.white, props.theme.color.black)};
-    box-shadow: 0 1rem 2rem -0.5rem ${props => transparentize(0.5, props.theme.color.black)};
-    transition: all 150ms ${p => p.theme.easing};
+    box-shadow: 0 1rem 2rem -0.5rem ${(props) => transparentize(0.5, props.theme.color.black)};
+    transition: all 150ms ${(p) => p.theme.easing};
     pointer-events: none;
-    ${props =>
+    ${(props) =>
       props.navOpen &&
       css`
         opacity: 1;
@@ -80,7 +81,7 @@ export const StyledNavbar = styled.ul`
       `};
   }
 
-  @media (min-width: ${props => props.theme.breakpoints.small}) {
+  @media (min-width: ${(props) => props.theme.breakpoints.small}) {
     display: flex;
     flex-direction: row;
     align-self: stretch;
@@ -123,10 +124,10 @@ export const NavItem = styled.li`
   display: flex;
   align-items: stretch;
   color: inherit;
-  @media (max-width: ${props => props.theme.breakpoints.small}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.small}) {
     &:not(:last-child) {
       border-bottom: 1px solid
-        ${props => transparentize(0.85, props.theme.color.white)};
+        ${(props) => transparentize(0.85, props.theme.color.white)};
     }
   }
 `
@@ -137,7 +138,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
   </Link>
 ))`
   flex: 1 0 auto;
-  line-height: ${props => props.theme.header.height};
+  line-height: ${(props) => props.theme.header.height};
   padding: 0 0.75rem;
   display: flex;
   align-items: center;
@@ -150,7 +151,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
   color: inherit !important;
   opacity: 0.5;
   overflow: visible;
-  transition: all 150ms ${p => p.theme.easing};
+  transition: all 150ms ${(p) => p.theme.easing};
   z-index: 1;
 
   &:focus-visible {
@@ -174,11 +175,11 @@ export const NavLink = styled(({ children, ...styleProps }) => (
     width: 100%;
   }
 
-  @media (min-width: ${props => props.theme.breakpoints.small}) {
+  @media (min-width: ${(props) => props.theme.breakpoints.small}) {
     line-height: 1;
   }
 
-  ${props =>
+  ${(props) =>
     props.theme.menu.style === "pill" &&
     css`
       padding: 0 1rem;
@@ -193,13 +194,13 @@ export const NavLink = styled(({ children, ...styleProps }) => (
         bottom: 0rem;
         opacity: 0;
         z-index: -1;
-        background-color: ${props =>
+        background-color: ${(props) =>
           props.theme.header.transparent
             ? props.theme.color.background
             : transparentize(0.95, props.theme.color.foreground)};
         border: 1px solid
-          ${props => transparentize(0.95, props.theme.color.foreground)};
-        transition: all 150ms ${props => props.theme.easing};
+          ${(props) => transparentize(0.95, props.theme.color.foreground)};
+        transition: all 150ms ${(props) => props.theme.easing};
       }
 
       &:focus-visible {
@@ -226,7 +227,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
       }
 
       &.active {
-        color: ${props =>
+        color: ${(props) =>
           props.theme.isDarkMode
             ? props.theme.color.foreground
             : props.theme.color.primary} !important;
@@ -235,7 +236,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
         }
       }
 
-      @media (min-width: ${props => props.theme.breakpoints.small}) {
+      @media (min-width: ${(props) => props.theme.breakpoints.small}) {
         &:before {
           top: 0.625rem;
           left: 0.25rem;
@@ -246,7 +247,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
       }
     `}
 
-  ${props =>
+  ${(props) =>
     props.theme.menu.style === "glow" &&
     css`
       &:after {
@@ -257,10 +258,10 @@ export const NavLink = styled(({ children, ...styleProps }) => (
         left: 0;
         width: 100%;
         height: 6px;
-        background-color: ${props =>
+        background-color: ${(props) =>
           transparentize(0.85, props.theme.color.white)};
         transform: translate3d(0, -100%, 0);
-        transition: all 150ms ${props => props.theme.easing};
+        transition: all 150ms ${(props) => props.theme.easing};
       }
 
       &:before {
@@ -273,7 +274,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
         height: 100%;
         background: linear-gradient(
           to bottom,
-          ${props =>
+          ${(props) =>
             transparentize(
               0.75,
               mix(0.25, props.theme.color.white, props.theme.color.black)
@@ -283,7 +284,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
         opacity: 0;
         z-index: -1;
         transform: translate3d(0, -100%, 0);
-        transition: all 150ms ${props => props.theme.easing};
+        transition: all 150ms ${(props) => props.theme.easing};
       }
 
       &:focus-visible {
@@ -300,7 +301,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
           opacity: 1;
         }
         &:after {
-          background-color: ${props =>
+          background-color: ${(props) =>
             transparentize(0.8, props.theme.color.black)};
         }
       }
@@ -323,7 +324,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
         &:before {
           background: linear-gradient(
             to bottom,
-            ${props =>
+            ${(props) =>
               transparentize(
                 0.75,
                 mix(0.5, props.theme.color.white, props.theme.color.black)
@@ -333,7 +334,7 @@ export const NavLink = styled(({ children, ...styleProps }) => (
         }
       }
 
-      @media (min-width: ${props => props.theme.breakpoints.small}) {
+      @media (min-width: ${(props) => props.theme.breakpoints.small}) {
         &:after,
         &:before {
           display: block;
@@ -364,7 +365,7 @@ export const NavToggle = styled(({ menuOpen, ...styleProps }) => {
   color: inherit;
   opacity: 0.5;
   overflow: visible;
-  transition: all 150ms ${p => p.theme.easing};
+  transition: all 150ms ${(p) => p.theme.easing};
 
   .open {
     display: none;
@@ -382,11 +383,11 @@ export const NavToggle = styled(({ menuOpen, ...styleProps }) => {
     opacity: 1;
   }
 
-  @media (min-width: ${props => props.theme.breakpoints.small}) {
+  @media (min-width: ${(props) => props.theme.breakpoints.small}) {
     display: none;
   }
 
-  ${props =>
+  ${(props) =>
     props.navOpen &&
     css`
       .open {
@@ -418,10 +419,10 @@ export const DarkModeToggle = styled(({ ...styleProps }) => {
   cursor: pointer;
   opacity: 0.5;
   overflow: hidden;
-  transition: all 300ms ${props => props.theme.easing};
+  transition: all 300ms ${(props) => props.theme.easing};
   transform-origin: 50% 50%;
 
-  @media (min-width: ${props => props.theme.breakpoints.small}) {
+  @media (min-width: ${(props) => props.theme.breakpoints.small}) {
     width: 1.5rem;
     height: 100%;
     margin-left: 1rem;
@@ -434,7 +435,7 @@ export const DarkModeToggle = styled(({ ...styleProps }) => {
     width: 1.5rem;
     height: auto;
     fill: currentColor;
-    transition: all 150ms ${props => props.theme.easing};
+    transition: all 150ms ${(props) => props.theme.easing};
     transform-origin: 50% 50%;
     &:first-child {
       opacity: 0;
@@ -459,7 +460,7 @@ export const DarkModeToggle = styled(({ ...styleProps }) => {
     opacity: 1;
   }
 
-  ${props =>
+  ${(props) =>
     props.theme.isDarkMode &&
     css`
       svg {
@@ -491,7 +492,7 @@ export const NavForm = {
       label: "Main Menu",
       name: "rawJson.menuItems",
       component: "group-list",
-      itemProps: item => ({
+      itemProps: (item) => ({
         label: item.label,
       }),
       fields: [
@@ -515,7 +516,7 @@ export const NavForm = {
           label: "Sub Menu",
           name: "subMenu",
           component: "group-list",
-          itemProps: item => ({
+          itemProps: (item) => ({
             key: item.link,
             label: item.label,
           }),
@@ -534,7 +535,7 @@ export const NavForm = {
               label: "Sub Menu",
               name: "subMenu",
               component: "group-list",
-              itemProps: item => ({
+              itemProps: (item) => ({
                 key: item.link,
                 label: item.label,
               }),
